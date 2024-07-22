@@ -1,2 +1,7 @@
-<p>home works!</p>
-<h1>TE amo esposa hermosa</h1>
+<form [formGroup]="formData">
+  <ui-input
+    formControlName="form1"
+    label="formulario1"
+    [control]="formData.get('form1')"
+  ></ui-input>
+</form>

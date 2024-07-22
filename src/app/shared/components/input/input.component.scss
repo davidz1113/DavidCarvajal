@@ -1,0 +1,30 @@
+.input-container {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+
+
+  label {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
+
+.is-inValid {
+  border: 1px solid red !important;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8rem;
+  margin: 0.2rem 0 0 0;
+}

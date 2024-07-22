@@ -1,0 +1,16 @@
+<div class="input-container">
+  @if (label) {
+  <label>{{ label }}</label>
+  }
+  <div>
+    <input
+      [type]="type"
+      [placeholder]="placeholder"
+      [formControl]="control"
+      uiInputStatus
+    />
+    @if (control.touched && firstError) {
+    <p class="error-message">{{ Errors[firstError] }}</p>
+    }
+  </div>
+</div>
