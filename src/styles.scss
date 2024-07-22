@@ -1,0 +1,154 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "./assets/styles/fonts.scss";
+@import "./assets/styles/variables.scss";
+@import "./assets/styles/mixin-responsive.scss";
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: $font-color;
+  color: $text-color;
+  margin: 0px;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.container {
+  width: 100%;
+
+  @include sm {
+    max-width: 480px;
+  }
+
+  @include md {
+    max-width: 768px;
+  }
+
+  @include lg {
+    max-width: 992px;
+  }
+
+  @include xlg {
+    max-width: 1200px;
+  }
+}
+// @media (min-width: 640px) {
+//   .container {
+//     max-width: 640px;
+//   }
+// }
+// @media (min-width: 768px) {
+//   .container {
+//     max-width: 768px;
+//   }
+// }
+// @media (min-width: 1024px) {
+//   .container {
+//     max-width: 1024px;
+//   }
+// }
+// @media (min-width: 1280px) {
+//   .container {
+//     max-width: 1280px;
+//   }
+// }
+// @media (min-width: 1536px) {
+//   .container {
+//     max-width: 1536px;
+//   }
+// }
+
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.align-self-center {
+  align-self: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-space-between {
+  justify-content: space-between;
+}
+
+.flex-space-around {
+  justify-content: space-around;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.p-1 {
+  padding: 1rem;
+}
+
+.pt-1 {
+  padding-top: 1rem;
+}
+
+.pb-1 {
+  padding-bottom: 1rem;
+}
+
+.pl-1 {
+  padding-left: 1rem;
+}
+
+.pr-1 {
+  padding-right: 1rem;
+}
+
+.mr-1 {
+  margin-right: 1rem;
+}
+
+.ml-1 {
+  margin-left: 1rem;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.gap-1 {
+  gap: 1rem;
+}
