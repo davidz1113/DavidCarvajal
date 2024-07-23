@@ -1,0 +1,56 @@
+<div class="table-responsive mt-1">
+  <table>
+    <thead>
+      <tr>
+        <th>Logo</th>
+        <th>Nombre del producto</th>
+        <th>Descripción</th>
+        <th>Fecha de liberación</th>
+        <th>Fecha de reestructuración</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aquí van las filas de la tabla -->
+      @for (prod of products$ | async ; track $index) {
+      <tr>
+        <td>
+          <img
+            src="assets/images/account-circle.svg"
+            alt="Logo"
+            class="product-logo"
+          />
+        </td>
+        <td>{{ prod.name }}</td>
+        <td>{{ prod.description }}</td>
+        <td>{{ prod.date_release }}</td>
+        <td>{{ prod.date_revision }}</td>
+        <td>
+          <img
+            src="assets/images/dots-vertical.svg"
+            alt="actions"
+            class="table-actions"
+            (click)="toggleDropdown($index)"
+          />
+          @if (showDropdownIndex === $index) {
+
+          <div class="dropdown-menu">
+            <a>Edit</a>
+            <a>Delete</a>
+          </div>
+          }
+        </td>
+      </tr>
+      }
+      <!-- Repite las filas según sea necesario -->
+    </tbody>
+  </table>
+  <div class="flex flex-space-between flex-wrap p-1">
+    <p class="text-secondary">{{ productsLenght$ | async }} Resultado(s)</p>
+    <select [formControl]="selectZiseForm" class="select-count" name="" id="">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+    </select>
+  </div>
+</div>

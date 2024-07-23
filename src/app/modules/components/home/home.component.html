@@ -1,7 +1,11 @@
 <form [formGroup]="formData">
   <ui-input
+    placeholder="Search..."
     formControlName="form1"
-    label="formulario1"
     [control]="formData.get('form1')"
   ></ui-input>
 </form>
+
+<div>
+  <ui-table-products></ui-table-products>
+</div>
