@@ -1,0 +1,7 @@
+<button
+  [class]="'btn btn-' + type"
+  (click)="onClickAction.emit()"
+  [disabled]="isDisabled"
+>
+  {{ textButton }}
+</button>

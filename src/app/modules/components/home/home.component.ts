@@ -9,7 +9,11 @@ import {
 import { JsonPipe } from '@angular/common';
 import { TableProductsComponent } from '../../../shared/components/table-products/table-products.component';
 import { Store } from '@ngrx/store';
-import { loadProducts, loadProductsByFilter } from '../../../state/actions/products.actions';
+import {
+  loadProducts,
+  loadProductsByFilter,
+} from '../../../state/actions/products.actions';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +23,7 @@ import { loadProducts, loadProductsByFilter } from '../../../state/actions/produ
     ReactiveFormsModule,
     JsonPipe,
     TableProductsComponent,
+    ButtonComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -34,7 +39,7 @@ export default class HomeComponent implements OnInit {
       form1: [''],
     });
 
-    this.formData.valueChanges.subscribe(({form1}) => {
+    this.formData.valueChanges.subscribe(({ form1 }) => {
       console.log(form1);
       this.store.dispatch(loadProductsByFilter({ filter: form1 }));
     });
@@ -42,5 +47,9 @@ export default class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadProducts());
+  }
+
+  goToNewProduct(): void {
+    console.log('goToNewProduct');
   }
 }

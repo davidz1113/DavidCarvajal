@@ -1,11 +1,16 @@
-<form [formGroup]="formData">
-  <ui-input
-    placeholder="Search..."
-    formControlName="form1"
-    [control]="formData.get('form1')"
-  ></ui-input>
-</form>
+<div class="mt-2">
+  <div class="flex flex-space-between flex-wrap">
+    <form [formGroup]="formData">
+      <ui-input
+        placeholder="Search..."
+        formControlName="form1"
+        [control]="formData.get('form1')"
+      ></ui-input>
+    </form>
+    <ui-button [textButton]="'New Product'" (onClickAction)="goToNewProduct()"></ui-button>
+  </div>
 
-<div>
-  <ui-table-products></ui-table-products>
+  <div>
+    <ui-table-products></ui-table-products>
+  </div>
 </div>

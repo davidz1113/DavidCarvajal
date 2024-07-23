@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostBinding } from '@angular/core';
+import { Directive, HostBinding } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Directive({
@@ -6,7 +6,7 @@ import { NgControl } from '@angular/forms';
   standalone: true,
 })
 export class InputStatusDirective {
-  constructor(private el: ElementRef, private control: NgControl) {}
+  constructor(private control: NgControl) {}
 
   @HostBinding('class.is-inValid')
   public get isInValid(): boolean | null {
