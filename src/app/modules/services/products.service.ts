@@ -13,11 +13,12 @@ export class ProductsService {
   constructor() {}
 
   getProductsApi(): Observable<ProductModel[]> {
+    //the delay to simulate more time to load
     return this.http.get<any>(`${this.url}/bp/products`).pipe(
       map((res) => {
         return res.data;
       })
-    );
+    ).pipe(delay(2000));
   }
 
   getIsValidProductById(id: string): Observable<boolean> {

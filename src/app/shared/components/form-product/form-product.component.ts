@@ -21,7 +21,10 @@ import { DatePipe, JsonPipe } from '@angular/common';
 import { productExistsValidator } from '../../../core/validators/product-exists.validator';
 import { ProductsService } from '../../../modules/services/products.service';
 import { Store } from '@ngrx/store';
-import { selectCreateProductLoading } from '../../../state/selectors/products.selector';
+import {
+  selectCreateProductLoading,
+  selectProductEditLoading,
+} from '../../../state/selectors/products.selector';
 import { ProductModel } from '../../../core/models/product.interface';
 import { Subscription } from 'rxjs';
 
@@ -44,6 +47,7 @@ export class FormProductComponent implements OnInit {
   @Input() productEdit: ProductModel | null = null;
 
   subscriptionCreate: Subscription | any;
+  subscriptionUpdate: Subscription | any;
 
   constructor() {
     this.initForm();
@@ -63,6 +67,8 @@ export class FormProductComponent implements OnInit {
         },
       });
 
+   
+
     this.formProduct.get('date_release')?.valueChanges.subscribe((val) => {
       const dateRelease = new Date(val);
       const dateNextYear = new Date(
@@ -77,9 +83,8 @@ export class FormProductComponent implements OnInit {
     if (this.productEdit) {
       this.subscriptionCreate.unsubscribe();
       this.updateValuesForm();
-    }
+    } 
   }
-
 
   initForm() {
     this.formProduct = this.fb.group({
@@ -122,11 +127,27 @@ export class FormProductComponent implements OnInit {
     this.formProduct.get('id')?.disable();
     this.formProduct.patchValue(this.productEdit!);
     this.formProduct.updateValueAndValidity();
+
+    this.subscriptionUpdate = this.store
+    .select(selectProductEditLoading)
+    .subscribe({
+      next: (loading) => {
+        if (loading) {
+          console.log(loading);
+          this.formProduct.disable();
+          this.formProduct.updateValueAndValidity();
+        } else {
+          this.formProduct.enable();
+          this.formProduct.get('id')?.disable();
+          this.formProduct.get('date_revision')?.disable();
+        }
+      },
+    });
   }
 
   onSendForm(): void {
     this.formProduct.markAllAsTouched();
-    if (this.formProduct.invalid) {
+    if (this.formProduct.invalid || this.formProduct.disabled) {
       return;
     }
     this.OnSendForm.emit(this.formProduct.getRawValue());

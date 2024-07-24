@@ -3,6 +3,8 @@ import { ProductState } from '../../core/models/product.state';
 import {
   createProductLoad,
   createProductLoadSuccess,
+  deleteProduct,
+  deleteProductSuccess,
   editProductData,
   loadProducts,
   loadProductsByFilter,
@@ -25,6 +27,7 @@ export const initialState: ProductState = {
   message: '',
   typeAlert: null,
   productEdit: null,
+  idToDelete: null,
 };
 
 export const productReducer = createReducer(
@@ -35,6 +38,7 @@ export const productReducer = createReducer(
     message: '',
     productEdit: null,
     filter: '',
+    idToDelete: null,
   })),
   on(loadProductsSuccess, (state, { products }) => ({
     ...state,
@@ -82,6 +86,22 @@ export const productReducer = createReducer(
     ...state,
     loadUpdateProduct: false,
     message,
+    typeAlert: 'success',
+  })),
+  on(deleteProduct, (state, { id }) => ({
+    ...state,
+    idToDelete: id,
+    message: '',
+  })),
+  on(deleteProductSuccess, (state, { message, id }) => ({
+    ...state,
+    products: state.products.filter((product) => product.id !== id),
+    productsFiltered: filterProducts(
+      state.products.filter((product) => product.id !== id),
+      state.filter,
+      state.pageSize
+    ),
+    message: 'Product deleted successfully',
     typeAlert: 'success',
   }))
 );

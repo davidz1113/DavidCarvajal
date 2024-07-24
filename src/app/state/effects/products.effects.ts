@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ProductsService } from '../../modules/services/products.service';
-import { catchError, EMPTY, map, mergeMap, of } from 'rxjs';
-import { reportFailure } from '../actions/products.actions';
+import { catchError, concatMap, EMPTY, map, mergeMap, of } from 'rxjs';
+import { deleteProduct, reportFailure } from '../actions/products.actions';
+import { closeModal } from '../actions/modal.actions';
 
 @Injectable()
 export class ProductsEffects {
@@ -59,6 +60,29 @@ export class ProductsEffects {
             type: '[Products] Update Product Load Success',
             message,
           })),
+          catchError((err) => {
+            return of(
+              reportFailure({ message: err.message, typeAlert: 'error' })
+            );
+          })
+        );
+      })
+    )
+  );
+
+  deleteProduct$ = createEffect(() =>
+    this.action$.pipe(
+      ofType('[Products] Delete Product'),
+      mergeMap((action: any) => {
+        return this.productsService.deleteProduct(action.id).pipe(
+          concatMap(({ message }) => [
+            {
+              type: '[Products] Delete Product Success',
+              message,
+              id: action.id,
+            },
+            closeModal(),
+          ]),
           catchError((err) => {
             return of(
               reportFailure({ message: err.message, typeAlert: 'error' })

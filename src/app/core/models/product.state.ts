@@ -11,4 +11,5 @@ export interface ProductState {
   message: string;
   typeAlert: string | null;
   productEdit: ProductModel | null;
+  idToDelete: string | null;
 }

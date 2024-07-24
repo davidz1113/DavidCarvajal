@@ -11,4 +11,26 @@
   <div class="container align-self-center">
     <router-outlet></router-outlet>
   </div>
+
+  <ui-modal [isVisible]="isModalVisible$ | async">
+    <div style="height: 100px">
+      <h3 class="text-primary">
+        Estas seguro de eliminar el producto?
+        {{ (props$ | async)?.productName }}
+      </h3>
+    </div>
+
+    <hr />
+    <div class="flex justify-content-center gap-1 flex-wrap mt-1">
+      <ui-button
+        [type]="secondaryType"
+        [textButton]="'Cancelar'"
+        (onClickAction)="onCancelModal()"
+      ></ui-button>
+      <ui-button
+        [textButton]="'Eliminar'"
+        (onClickAction)="onConfirmDelete()"
+      ></ui-button>
+    </div>
+  </ui-modal>
 </div>

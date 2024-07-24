@@ -4,9 +4,8 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { TableProductsComponent } from '../../../shared/components/table-products/table-products.component';
 import { Store } from '@ngrx/store';
 import {
@@ -15,6 +14,9 @@ import {
 } from '../../../state/actions/products.actions';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { selectProductsLoading } from '../../../state/selectors/products.selector';
+import { TextSkeletonComponent } from '../../../shared/components/skeletons/text-skeleton/text-skeleton.component';
 
 @Component({
   selector: 'app-home',
@@ -22,9 +24,10 @@ import { Router } from '@angular/router';
   imports: [
     InputComponent,
     ReactiveFormsModule,
-    JsonPipe,
     TableProductsComponent,
     ButtonComponent,
+    TextSkeletonComponent,
+    AsyncPipe
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -33,6 +36,9 @@ export default class HomeComponent implements OnInit {
   formBuilder: FormBuilder = inject(FormBuilder);
   private store: Store<any> = inject(Store);
   router: Router = inject(Router);
+
+  productsLoad$: Observable<boolean> = new Observable();
+
 
   formData: FormGroup = new FormGroup({});
 
@@ -48,6 +54,7 @@ export default class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.productsLoad$ = this.store.select(selectProductsLoading);
     this.store.dispatch(loadProducts());
   }
 

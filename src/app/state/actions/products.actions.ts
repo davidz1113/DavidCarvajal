@@ -43,6 +43,16 @@ export const updateProductLoadSuccess = createAction(
   props<{ message: string }>()
 );
 
+export const deleteProduct = createAction(
+  '[Products] Delete Product',
+  props<{ id: string }>()
+);
+
+export const deleteProductSuccess = createAction(
+  '[Products] Delete Product Success',
+  props<{ id: string; message: string }>()
+);
+
 //Action to handle global exceptions
 export const reportFailure = createAction(
   '[Products] Report Failure',

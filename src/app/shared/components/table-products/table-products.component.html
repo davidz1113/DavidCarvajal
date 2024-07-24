@@ -11,15 +11,31 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Aquí van las filas de la tabla -->
-      @for (prod of products$ | async ; track $index) {
+      @if (productsLoad$ | async) { @for (_ of iterations; track $index) {
       <tr>
         <td>
-          <img
-            [src]="prod.logo"
-            alt="Logo"
-            class="product-logo"
-          />
+          <ui-text-skeleton width="50" height="50" />
+        </td>
+        <td>
+          <ui-text-skeleton width="100" height="20" />
+        </td>
+        <td>
+          <ui-text-skeleton width="100" height="20" />
+        </td>
+        <td>
+          <ui-text-skeleton width="100" height="20" />
+        </td>
+        <td>
+          <ui-text-skeleton width="100" height="20" />
+        </td>
+        <td>
+          <ui-text-skeleton width="20" height="50" />
+        </td>
+      </tr>
+      } }@else { @for (prod of products$ | async ; track $index) {
+      <tr>
+        <td>
+          <img [src]="prod.logo" alt="Logo" class="product-logo" />
         </td>
         <td>{{ prod.name }}</td>
         <td>{{ prod.description }}</td>
@@ -36,21 +52,26 @@
 
           <div class="dropdown-menu">
             <a (click)="editProduct(prod)">Edit</a>
-            <a (click)="deleteProduct(prod.id)">Delete</a>
+            <a (click)="deleteProduct(prod)">Delete</a>
           </div>
           }
         </td>
       </tr>
-      }
-      <!-- Repite las filas según sea necesario -->
+      } }
     </tbody>
   </table>
   <div class="flex flex-space-between flex-wrap p-1">
+    @if (productsLoad$ | async) {
+    <ui-text-skeleton width="100" height="50" />
+    <ui-text-skeleton width="100" height="50" />
+    }@else {
+
     <p class="text-secondary">{{ productsLenght$ | async }} Resultado(s)</p>
     <select [formControl]="selectZiseForm" class="select-count" name="" id="">
       <option value="5">5</option>
       <option value="10">10</option>
       <option value="20">20</option>
     </select>
+    }
   </div>
 </div>
