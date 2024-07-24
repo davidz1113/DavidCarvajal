@@ -19,4 +19,8 @@ export class ProductsService {
       })
     );
   }
+
+  getIsValidProductById(id: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.url}/bp/products/verification/${id}`);
+  }
 }

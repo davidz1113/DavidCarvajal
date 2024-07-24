@@ -36,17 +36,16 @@ body {
 }
 
 .text-primary {
-    color: $primary-color;
+  color: $primary-color;
 }
 
 .text-secondary {
-    color: $secondary-color;
+  color: $secondary-color;
 }
 
 .text-tertiary {
-    color: $tertiary-color;
+  color: $tertiary-color;
 }
-
 
 .flex {
   display: flex;
@@ -142,5 +141,52 @@ body {
 }
 
 .mt-2 {
-    margin-top: 2rem;
+  margin-top: 2rem;
+}
+
+.col-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.col-12 {
+  @include sm {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.col-sm-6 {
+  @include sm {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+.col-sm-12 {
+  @include sm {
+    // flex: 0 0 100%;
+    // max-width: 100%;
+  }
+}
+
+.col-md-6 {
+  @include md {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+.col-xlg-6 {
+  @include xlg {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+.col-lg-6 {
+  @include lg {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
 }

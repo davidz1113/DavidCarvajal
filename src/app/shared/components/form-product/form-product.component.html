@@ -1,0 +1,59 @@
+<div class="flex justify-content-center">
+  <div class="container-form">
+    <h3 class="container-form__title">Formulario</h3>
+    <hr />
+    <form [formGroup]="formProduct">
+      <div class="mt-2 flex flex-wrap">
+        <ui-input
+          class="mb-1 col-xlg-6 col-lg-6 col-md-6"
+          label="ID"
+          formControlName="id"
+          [hasAsyncValidator]="true"
+          [control]="formProduct.get('id')"
+        ></ui-input>
+        <ui-input
+          class="mb-1 col-xlg-6 col-lg-6 col-md-6"
+          label="Name of product"
+          formControlName="name"
+          [control]="formProduct.get('name')"
+        ></ui-input>
+        <ui-input
+          label="Description"
+          class="mb-1 col-sm-6 col-xlg-6 col-lg-6 col-md-6"
+          formControlName="description"
+          [control]="formProduct.get('description')"
+        ></ui-input>
+        <ui-input
+          label="Logo"
+          class="mb-1 col-sm-6 col-xlg-6 col-lg-6 col-md-6"
+          formControlName="logo"
+          [control]="formProduct.get('logo')"
+        ></ui-input>
+        <ui-input
+          label="Release date"
+          class="mb-1 col-sm-6 col-xlg-6 col-lg-6 col-md-6"
+          formControlName="date_release"
+          type="date"
+          [control]="formProduct.get('date_release')"
+        ></ui-input>
+        <ui-input
+          label="Revision date"
+          class="mb-1 col-sm-6 col-xlg-6 col-lg-6 col-md-6"
+          formControlName="date_revision"
+          [control]="formProduct.get('date_revision')"
+        ></ui-input>
+      </div>
+      <div class="flex justify-content-center gap-1">
+        <ui-button
+          [type]="secondaryType"
+          [textButton]="'Reset'"
+          (onClickAction)="resetForm()"
+        ></ui-button>
+        <ui-button
+          [textButton]="'Send'"
+          (onClickAction)="onSendForm()"
+        ></ui-button>
+      </div>
+    </form>
+  </div>
+</div>

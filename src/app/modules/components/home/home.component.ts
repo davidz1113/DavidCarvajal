@@ -14,6 +14,7 @@ import {
   loadProductsByFilter,
 } from '../../../state/actions/products.actions';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +32,7 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 export default class HomeComponent implements OnInit {
   formBuilder: FormBuilder = inject(FormBuilder);
   private store: Store<any> = inject(Store);
+  router: Router = inject(Router);
 
   formData: FormGroup = new FormGroup({});
 
@@ -50,6 +52,6 @@ export default class HomeComponent implements OnInit {
   }
 
   goToNewProduct(): void {
-    console.log('goToNewProduct');
+    this.router.navigate(['product/new']);
   }
 }

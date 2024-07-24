@@ -3,20 +3,18 @@ import {
   forwardRef,
   Input,
   OnChanges,
-  OnInit,
   SimpleChanges,
 } from '@angular/core';
 import {
-  AbstractControl,
   ControlValueAccessor,
   FormControl,
-  NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { InputStatusDirective } from '../../../core/directives/input-status.directive';
 import { JsonPipe } from '@angular/common';
 import { Errors } from '../../../core/constanst/errors.enums';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'ui-input',
@@ -32,12 +30,13 @@ import { Errors } from '../../../core/constanst/errors.enums';
     },
   ],
 })
-export class InputComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class InputComponent implements ControlValueAccessor, OnChanges {
   @Input() label: string = '';
   @Input() type: string = 'text';
   @Input() placeholder: string = '';
   @Input() value: string = '';
   @Input() control: FormControl | any = new FormControl();
+  @Input() hasAsyncValidator: boolean = false;
 
   firstError: string = '';
   Errors: any = Errors;
@@ -45,15 +44,16 @@ export class InputComponent implements ControlValueAccessor, OnInit, OnChanges {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-
-    this.control.valueChanges.subscribe((_val: any) => {
-      this.setFirstError();
-    });
-  }
-
-  ngOnInit() {
-    console.log(this.control);
+    //The delay is beacuse it is waited to the async validator to finish and avoid to send each word to the server, the delay is 2 seconds in custom validator, and here is 2.1 seconds
+    if (this.hasAsyncValidator) {
+      this.control.valueChanges.pipe(delay(2100)).subscribe((_val: any) => {
+        this.setFirstError();
+      });
+    } else {
+      this.control.valueChanges.subscribe((_val: any) => {
+        this.setFirstError();
+      });
+    }
   }
 
   onChange: any = () => {};
@@ -80,7 +80,7 @@ export class InputComponent implements ControlValueAccessor, OnInit, OnChanges {
     this.onTouched();
   }
 
-  setFirstError() : void {
+  setFirstError(): void {
     this.firstError = Object.keys(this.control.errors || {})[0];
   }
 }
