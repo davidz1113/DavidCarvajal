@@ -11,4 +11,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./modules/components/products/new-product/new-product.component'),
   },
+  {
+    path: 'product/update',
+    loadComponent: () =>
+      import('./modules/components/products/update-product/update-product.component'),
+  },
 ];

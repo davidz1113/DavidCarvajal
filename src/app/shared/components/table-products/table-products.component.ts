@@ -9,7 +9,11 @@ import {
 import { AsyncPipe } from '@angular/common';
 import { ProductModel } from '../../../core/models/product.interface';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { setPageSize } from '../../../state/actions/products.actions';
+import {
+  editProductData,
+  setPageSize,
+} from '../../../state/actions/products.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ui-table-products',
@@ -26,6 +30,8 @@ export class TableProductsComponent implements OnInit {
 
   selectZiseForm: FormControl = new FormControl('5');
 
+  router: Router = inject(Router);
+
   ngOnInit(): void {
     this.products$ = this.store.select(selectProducts);
     this.productsLenght$ = this.store.select(selectProductsLength);
@@ -37,5 +43,14 @@ export class TableProductsComponent implements OnInit {
 
   toggleDropdown(index: number): void {
     this.showDropdownIndex = this.showDropdownIndex === index ? null : index;
+  }
+
+  editProduct(producto: ProductModel): void {
+    this.store.dispatch(editProductData({ product: producto }));
+    this.router.navigate(['product/update']);
+  }
+
+  deleteProduct(id: string): void {
+    console.log('Delete element', id);
   }
 }

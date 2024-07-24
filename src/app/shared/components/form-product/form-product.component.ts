@@ -1,4 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -12,6 +20,10 @@ import { dateIsTodayValidator } from '../../../core/validators/date-is-today.val
 import { DatePipe, JsonPipe } from '@angular/common';
 import { productExistsValidator } from '../../../core/validators/product-exists.validator';
 import { ProductsService } from '../../../modules/services/products.service';
+import { Store } from '@ngrx/store';
+import { selectCreateProductLoading } from '../../../state/selectors/products.selector';
+import { ProductModel } from '../../../core/models/product.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ui-form-product',
@@ -27,14 +39,59 @@ export class FormProductComponent implements OnInit {
   secondaryType = ButtonType.Secondary;
   private datePipe: DatePipe = inject(DatePipe);
   private productService = inject(ProductsService);
+  private store: Store<any> = inject(Store);
+  @Output() OnSendForm: EventEmitter<ProductModel> = new EventEmitter();
+  @Input() productEdit: ProductModel | null = null;
+
+  subscriptionCreate: Subscription | any;
 
   constructor() {
+    this.initForm();
+  }
+
+  ngOnInit(): void {
+    this.subscriptionCreate = this.store
+      .select(selectCreateProductLoading)
+      .subscribe({
+        next: (loading) => {
+          if (loading) {
+            this.formProduct.disable();
+          } else {
+            this.formProduct.enable();
+            this.formProduct.get('date_revision')?.disable();
+          }
+        },
+      });
+
+    this.formProduct.get('date_release')?.valueChanges.subscribe((val) => {
+      const dateRelease = new Date(val);
+      const dateNextYear = new Date(
+        dateRelease.setFullYear(dateRelease.getFullYear() + 1)
+      );
+
+      this.formProduct
+        .get('date_revision')
+        ?.setValue(this.datePipe.transform(dateNextYear, 'yyyy-MM-dd'));
+    });
+
+    if (this.productEdit) {
+      this.subscriptionCreate.unsubscribe();
+      this.updateValuesForm();
+    }
+  }
+
+
+  initForm() {
     this.formProduct = this.fb.group({
       id: [
         '',
         {
           asyncValidators: [productExistsValidator(this.productService)],
-          validators: [Validators.required, Validators.minLength(3), Validators.maxLength(10)],
+          validators: [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(10),
+          ],
         },
       ],
       name: [
@@ -59,22 +116,20 @@ export class FormProductComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.formProduct.get('date_release')?.valueChanges.subscribe((val) => {
-      const dateRelease = new Date(val);
-      const dateNextYear = new Date(
-        dateRelease.setFullYear(dateRelease.getFullYear() + 1)
-      );
-
-      this.formProduct
-        .get('date_revision')
-        ?.setValue(this.datePipe.transform(dateNextYear, 'dd/MM/yyyy'));
-    });
+  updateValuesForm(): void {
+    this.formProduct.get('id')?.clearAsyncValidators();
+    this.formProduct.get('id')?.clearValidators();
+    this.formProduct.get('id')?.disable();
+    this.formProduct.patchValue(this.productEdit!);
+    this.formProduct.updateValueAndValidity();
   }
 
   onSendForm(): void {
     this.formProduct.markAllAsTouched();
-    console.log(this.formProduct.value);
+    if (this.formProduct.invalid) {
+      return;
+    }
+    this.OnSendForm.emit(this.formProduct.getRawValue());
   }
 
   resetForm() {

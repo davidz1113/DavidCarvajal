@@ -1,10 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
 import { ProductState } from '../../core/models/product.state';
 import {
+  createProductLoad,
+  createProductLoadSuccess,
+  editProductData,
   loadProducts,
   loadProductsByFilter,
   loadProductsSuccess,
+  reportFailure,
   setPageSize,
+  updateProductLoad,
+  updateProductLoadSuccess,
 } from '../actions/products.actions';
 import { ProductModel } from '../../core/models/product.interface';
 
@@ -14,11 +20,22 @@ export const initialState: ProductState = {
   filter: '',
   productsFiltered: [],
   pageSize: 5,
+  loadCreateProduct: false,
+  loadUpdateProduct: false,
+  message: '',
+  typeAlert: null,
+  productEdit: null,
 };
 
 export const productReducer = createReducer(
   initialState,
-  on(loadProducts, (state) => ({ ...state, loading: true })),
+  on(loadProducts, (state) => ({
+    ...state,
+    loading: true,
+    message: '',
+    productEdit: null,
+    filter: '',
+  })),
   on(loadProductsSuccess, (state, { products }) => ({
     ...state,
     products,
@@ -34,6 +51,38 @@ export const productReducer = createReducer(
     ...state,
     pageSize,
     productsFiltered: filterProducts(state.products, state.filter, pageSize),
+  })),
+  on(createProductLoad, (state) => ({
+    ...state,
+    loadCreateProduct: true,
+    message: '',
+  })),
+  on(createProductLoadSuccess, (state, { message }) => ({
+    ...state,
+    loadCreateProduct: false,
+    message,
+    typeAlert: 'success',
+  })),
+  on(reportFailure, (state, { message, typeAlert }) => ({
+    ...state,
+    message,
+    typeAlert,
+  })),
+  on(editProductData, (state, { product }) => ({
+    ...state,
+    productEdit: product,
+  })),
+  on(updateProductLoad, (state) => ({
+    ...state,
+    loadUpdateProduct: true,
+    message: '',
+  })),
+
+  on(updateProductLoadSuccess, (state, { message }) => ({
+    ...state,
+    loadUpdateProduct: false,
+    message,
+    typeAlert: 'success',
   }))
 );
 

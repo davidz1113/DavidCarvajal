@@ -35,8 +35,8 @@
           @if (showDropdownIndex === $index) {
 
           <div class="dropdown-menu">
-            <a>Edit</a>
-            <a>Delete</a>
+            <a (click)="editProduct(prod)">Edit</a>
+            <a (click)="deleteProduct(prod.id)">Delete</a>
           </div>
           }
         </td>

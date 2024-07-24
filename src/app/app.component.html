@@ -1,5 +1,13 @@
 <app-header></app-header>
 <div class="flex flex-column p-1">
+  <div *ngIf="messageAndType$ | async as messageAndType">
+    @if (messageAndType.message) {
+    <app-alert
+      [message]="messageAndType.message"
+      [type]="messageAndType.typeAlert"
+    ></app-alert>
+    }
+  </div>
   <div class="container align-self-center">
     <router-outlet></router-outlet>
   </div>
