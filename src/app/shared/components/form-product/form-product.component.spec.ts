@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormProductComponent } from './form-product.component';
+import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('FormProductComponent', () => {
   let component: FormProductComponent;
@@ -8,7 +11,8 @@ describe('FormProductComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormProductComponent]
+      imports: [FormProductComponent, HttpClientModule, StoreModule.forRoot({}) ],
+      providers: [provideMockStore()],
     })
     .compileComponents();
     
