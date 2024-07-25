@@ -20,4 +20,11 @@ describe('InputComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('updateValue() should update value', () => {
+    const spyOnTouched = jest.spyOn(component, 'onTouched');
+    component.updateValue('new value');
+    expect(spyOnTouched).toHaveBeenCalled();
+  });
+
 });

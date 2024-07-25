@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { AlertComponent } from './shared/components/alert/alert.component';
 import { Store } from '@ngrx/store';
@@ -10,7 +10,6 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { ModalComponent } from './shared/components/modal/modal.component';
 import { ButtonComponent } from './shared/components/button/button.component';
 import { ButtonType } from './core/constanst/button.enums';
-import { selectDataModal } from './state/selectors/modal.selector';
 import { closeModal } from './state/actions/modal.actions';
 import { deleteProduct } from './state/actions/products.actions';
 
@@ -29,7 +28,6 @@ import { deleteProduct } from './state/actions/products.actions';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'angular-test';
   private store: Store<AppState> = inject(Store);
   messageAndType$: Observable<any> = new Observable();
   secondaryType = ButtonType.Secondary;

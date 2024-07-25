@@ -48,7 +48,6 @@ export default class HomeComponent implements OnInit {
     });
 
     this.formData.valueChanges.subscribe(({ form1 }) => {
-      console.log(form1);
       this.store.dispatch(loadProductsByFilter({ filter: form1 }));
     });
   }
